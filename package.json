@@ -1,6 +1,6 @@
 {
   "name": "node-arn",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Aina Resource Naming",
   "main": "index.js",
   "scripts": {
