@@ -1,5 +1,3 @@
-const { ARN, Artifacts, Header } = require('./src/arn');
+const { ARN } = require('./src/arn');
 
-module.exports = {
-  ARN, Artifacts, Header
-};
+module.exports = ARN;
