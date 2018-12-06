@@ -7,6 +7,7 @@ const assert = require('assert');
 let arnHeader = 'aina';
 
 let arnArtifacts = {
+  tenant: 'tenant',
   service: 'service',
   permission: 'permission',
   role: 'role',
