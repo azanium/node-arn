@@ -46,11 +46,7 @@
     "testEnvironment": "node",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
-      "!src/config/**",
       "!src/**/index.js",
-      "!src/database/**",
-      "!src/models/**",
-      "!src/**/*.validation.js",
       "!<rootDir>/node_modules/"
     ],
     "coverageReporters": [
