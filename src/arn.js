@@ -4,7 +4,7 @@
  */
 const assert = require('assert');
 
-let arnHeader = 'aina';
+let arnHeader = 'arn';
 
 let arnArtifacts = {
   tenant: 'tenant',
@@ -31,8 +31,9 @@ class ARN {
   static setArtifacts(artifacts) { arnArtifacts = artifacts; }
 
   static parse(arnString) {
-    const arn = new ARN();
+    assert(arnString, 'ARN string must be non null string');
 
+    const arn = new ARN();
     const parts = arnString.split(':');
     assert.strictEqual(parts.length, 4, 'Invalid ARN format');
     const header = parts[0];
