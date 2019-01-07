@@ -11,8 +11,8 @@ describe('ARN', () => {
 
   it('should change header', () => {
     const headerString = 'hello';
-    ARN.setHeader(headerString);
-    const header = ARN.getHeader(headerString);
+    ARN.setDefaultHeader(headerString);
+    const header = ARN.getDefaultHeader(headerString);
     expect(header).toEqual(headerString);
   });
 
@@ -27,16 +27,16 @@ describe('ARN', () => {
 
   it('should create ARN without qualifier', () => {
     const arn = new ARN(artifact, id, resource).toString();
-    expect(arn).toEqual(`${ARN.getHeader()}:${artifact}:${id}:${resource}`);
+    expect(arn).toEqual(`${ARN.getDefaultHeader()}:${artifact}:${id}:${resource}`);
   });
 
   it('should create ARN with qualifier', () => {
     const arn = new ARN(artifact, id, resource, qualifier).toString();
-    expect(arn).toEqual(`${ARN.getHeader()}:${artifact}:${id}:${resource}/${qualifier}`);
+    expect(arn).toEqual(`${ARN.getDefaultHeader()}:${artifact}:${id}:${resource}/${qualifier}`);
   });
 
   it('should parse arn from string', () => {
-    const arn = ARN.parse(`${ARN.getHeader()}:${artifact}:${id}:${resource}/${qualifier}`);
+    const arn = ARN.parse(`${ARN.getDefaultHeader()}:${artifact}:${id}:${resource}/${qualifier}`);
 
     expect(arn.artifact).toEqual(artifact);
     expect(arn.id).toEqual(id);
@@ -45,7 +45,7 @@ describe('ARN', () => {
   });
 
   it('should parse arn from string without qualifier', () => {
-    const arn = ARN.parse(`${ARN.getHeader()}:${artifact}:${id}:${resource}`);
+    const arn = ARN.parse(`${ARN.getDefaultHeader()}:${artifact}:${id}:${resource}`);
 
     expect(arn.artifact).toEqual(artifact);
     expect(arn.id).toEqual(id);
@@ -63,5 +63,47 @@ describe('ARN', () => {
       expect(error.code).toEqual('ERR_ASSERTION');
       expect(error.actual).not.toEqual(error.expected);
     }
+  });
+
+  it('should match header', () => {
+    const sourceArn = ARN.parse(`${ARN.getDefaultHeader()}:${artifact}:*:${resource}/${qualifier}`);
+    const targetArn = ARN.parse(`${ARN.getDefaultHeader()}:${artifact}:${id}:${resource}/${qualifier}`);
+    const match = sourceArn.matchHeader(targetArn.header);
+    expect(match).toBe(true);
+  });
+
+  it('should match id with wildcard', () => {
+    const sourceArn = ARN.parse(`${ARN.getDefaultHeader()}:${artifact}:*:${resource}/${qualifier}`);
+    const targetArn = ARN.parse(`${ARN.getDefaultHeader()}:${artifact}:${id}:${resource}/${qualifier}`);
+    const match = sourceArn.matchId(targetArn.id);
+    expect(match).toBe(true);
+  });
+
+  it('should match resource with wildcard', () => {
+    const sourceArn = ARN.parse(`${ARN.getDefaultHeader()}:${artifact}:*:*/${qualifier}`);
+    const targetArn = ARN.parse(`${ARN.getDefaultHeader()}:${artifact}:${id}:${resource}/${qualifier}`);
+    const match = sourceArn.matchResource(targetArn.resource);
+    expect(match).toBe(true);
+  });
+
+  it('should match qualifier with wildcard', () => {
+    const sourceArn = ARN.parse(`${ARN.getDefaultHeader()}:${artifact}:*:*/*`);
+    const targetArn = ARN.parse(`${ARN.getDefaultHeader()}:${artifact}:${id}:${resource}/${qualifier}`);
+    const match = sourceArn.matchQualifier(targetArn.qualifier);
+    expect(match).toBe(true);
+  });
+
+  it('should match resource and qualifier with wildcard', () => {
+    const sourceArn = ARN.parse(`${ARN.getDefaultHeader()}:${artifact}:*:*/*`);
+    const targetArn = ARN.parse(`${ARN.getDefaultHeader()}:${artifact}:${id}:${resource}/${qualifier}`);
+    const match = sourceArn.matchRnQ(targetArn.resource, targetArn.qualifier);
+    expect(match).toBe(true);
+  });
+
+  it('should match source and target ARN', () => {
+    const sourceArn = ARN.parse(`${ARN.getDefaultHeader()}:${artifact}:*:*/*`);
+    const targetArn = ARN.parse(`${ARN.getDefaultHeader()}:${artifact}:${id}:${resource}/${qualifier}`);
+    const match = sourceArn.match(targetArn);
+    expect(match).toBe(true);
   });
 });

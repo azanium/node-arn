@@ -6,7 +6,7 @@ const assert = require('assert');
 const _ = require('lodash');
 const wildcardMatch = require('wildcard-match');
 
-let arnHeader = 'arn';
+const arnHeader = 'arn';
 
 let arnArtifacts = {
   tenant: 'tenant',
@@ -18,15 +18,16 @@ let arnArtifacts = {
 
 class ARN {
   constructor(artifact, id, resource, qualifier) {
+    this.header = arnHeader;
     this.artifact = artifact;
     this.id = id;
     this.resource = resource;
     this.qualifier = qualifier;
   }
 
-  static getHeader() { return arnHeader; }
+  static getDefaultHeader() { return this.arnHeader; }
 
-  static setHeader(header) { arnHeader = header; }
+  static setDefaultHeader(header) { this.arnHeader = header; }
 
   static getArtifacts() { return arnArtifacts; }
 
@@ -43,7 +44,7 @@ class ARN {
     const id = parts[2];
     const resource = parts[3];
 
-    assert.strictEqual(header, ARN.getHeader(), 'Invalid ARN header');
+    assert.strictEqual(header, ARN.getDefaultHeader(), 'Invalid ARN header');
     arn.artifact = artifact;
     arn.id = id;
 
@@ -56,7 +57,7 @@ class ARN {
   }
 
   toString() {
-    const stringARN = [ARN.getHeader(), this.artifact, this.id, this.resource];
+    const stringARN = [ARN.getDefaultHeader(), this.artifact, this.id, this.resource];
     return stringARN.join(':') + (this.qualifier ? `/${this.qualifier}` : '');
   }
 
