@@ -60,6 +60,12 @@ class ARN {
     return stringARN.join(':') + (this.qualifier ? `/${this.qualifier}` : '');
   }
 
+  matchHeader(header) {
+    assert(header, 'Header should not be undefined');
+    assert(!_.isEmpty(header), 'Header should not be empty string');
+    return this.header === header;
+  }
+
   matchArtifact(artifact) {
     assert(artifact, 'Artifact should not be undefined');
     assert(!_.isEmpty(artifact), 'Artifact should not be empty string');
@@ -86,6 +92,11 @@ class ARN {
 
   matchRnQ(resource, qualifier) {
     return this.matchResource(resource) && this.matchQualifier(qualifier);
+  }
+
+  match(otherArn) {
+    // We ignore the ID for now
+    return this.matchHeader(otherArn) && this.matchArtifact(otherArn.artifact) && this.matchRnQ(otherArn.resource, otherArn.qualifier);
   }
 }
 
