@@ -4006,6 +4006,11 @@ wide-align@^1.1.0:
   dependencies:
     string-width "^1.0.2 || 2"
 
+wildcard-match@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/wildcard-match/-/wildcard-match-1.1.0.tgz#166a247a83581921867841c9dba03b75b98e9a3e"
+  integrity sha512-iYLDT7W2XmPqp45HylJzwSqD8qUSL6gIVz+/k0v0B+WPGt28rj/BLIUy3YoS3Fvfs4d6Yhl0o+kDWpd+0tDJAA==
+
 wordwrap@~0.0.2:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"

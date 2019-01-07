@@ -3,6 +3,8 @@
  *
  */
 const assert = require('assert');
+const _ = require('lodash');
+const wildcardMatch = require('wildcard-match');
 
 let arnHeader = 'arn';
 
@@ -56,6 +58,34 @@ class ARN {
   toString() {
     const stringARN = [ARN.getHeader(), this.artifact, this.id, this.resource];
     return stringARN.join(':') + (this.qualifier ? `/${this.qualifier}` : '');
+  }
+
+  matchArtifact(artifact) {
+    assert(artifact, 'Artifact should not be undefined');
+    assert(!_.isEmpty(artifact), 'Artifact should not be empty string');
+    return wildcardMatch(this.artifact, artifact);
+  }
+
+  matchId(id) {
+    assert(id, 'Id should not be undefined');
+    assert(!_.isEmpty(id), 'Id should not be empty string');
+    return wildcardMatch(this.id, id);
+  }
+
+  matchResource(resource) {
+    assert(resource, 'Resource should not be undefined');
+    assert(!_.isEmpty(resource), 'Resource should not be empty string');
+    return wildcardMatch(this.resource, resource);
+  }
+
+  matchQualifier(qualifier) {
+    assert(qualifier, 'Qualifier should not be undefined');
+    assert(!_.isEmpty(qualifier), 'Qualifier should not be empty string');
+    return wildcardMatch(this.qualifier, qualifier);
+  }
+
+  matchRnQ(resource, qualifier) {
+    return this.matchResource(resource) && this.matchQualifier(qualifier);
   }
 }
 

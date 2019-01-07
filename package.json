@@ -56,5 +56,9 @@
       "text",
       "clover"
     ]
+  },
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "wildcard-match": "^1.1.0"
   }
 }
