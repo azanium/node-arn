@@ -96,7 +96,7 @@ class ARN {
 
   match(otherArn) {
     // We ignore the ID for now
-    return this.matchHeader(otherArn) && this.matchArtifact(otherArn.artifact) && this.matchRnQ(otherArn.resource, otherArn.qualifier);
+    return this.matchHeader(otherArn.header) && this.matchArtifact(otherArn.artifact) && this.matchRnQ(otherArn.resource, otherArn.qualifier);
   }
 }
 
