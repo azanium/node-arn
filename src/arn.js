@@ -44,7 +44,7 @@ class ARN {
     const id = parts[2];
     const resource = parts[3];
 
-    assert.strictEqual(header, ARN.getDefaultHeader(), 'Invalid ARN header');
+    arn.header = header;
     arn.artifact = artifact;
     arn.id = id;
 
