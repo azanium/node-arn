@@ -57,7 +57,7 @@ class ARN {
   }
 
   toString() {
-    const stringARN = [ARN.getDefaultHeader(), this.artifact, this.id, this.resource];
+    const stringARN = [this.header, this.artifact, this.id, this.resource];
     return stringARN.join(':') + (this.qualifier ? `/${this.qualifier}` : '');
   }
 

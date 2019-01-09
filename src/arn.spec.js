@@ -5,9 +5,11 @@ describe('ARN', () => {
   const id = '123';
   const resource = 'name';
   const qualifier = 'read';
-  beforeEach(() => {});
+  const originalHeader = 'arn';
 
-  afterEach(() => {});
+  beforeEach(() => {
+    ARN.setDefaultHeader(originalHeader);
+  });
 
   it('should change header', () => {
     const headerString = 'hello';
